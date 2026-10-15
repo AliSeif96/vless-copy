@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VLESS Servers</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+  margin: 0;
+  padding: 24px 16px;
+}
+main {
+  max-width: 520px;
+  margin: auto;
+}
+h1 { text-align: center; }
+.server {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 18px;
+  margin: 16px 0;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #38bdf8;
+  color: #082f49;
+  font-size: 17px;
+  font-weight: bold;
+}
+.status { color: #86efac; }
+</style>
+</head>
+<body>
+<main>
+<h1>VLESS Servers</h1>
+<p style="text-align:center">سرور موردنظر را کپی کن</p>
+
+<div class="server">
+<h3>Miami CDN5</h3>
+<button onclick="copyServer(0)">کپی لینک</button>
+</div>
+
+<div class="server">
+<h3>Los Angeles CDN3</h3>
+<button onclick="copyServer(1)">کپی لینک</button>
+</div>
+
+<div class="server">
+<h3>Los Angeles CDN5</h3>
+<button onclick="copyServer(2)">کپی لینک</button>
+</div>
+
+<p id="status" class="status"></p>
+<textarea id="fallback" rows="4"
+style="display:none;width:100%;box-sizing:border-box"></textarea>
+
+</main>
+<script>
+const servers = [
+"vless://551D41D3-B336-411C-7EEB-C96357C6CB11@usfl.foldandflyhigh.com:443?encryption=none&security=tls&sni=usfl.foldandflyhigh.com&alpn=http%2F1.1&type=ws&host=usfl.foldandflyhigh.com&path=%2F#TG-Miami-CDN5-Vless",
+"vless://551D41D3-B336-411C-7EEB-C96357C6CB11@usla.overtheriverandthroughthewoods.net:443?encryption=none&security=tls&sni=usla.overtheriverandthroughthewoods.net&alpn=http%2F1.1&type=ws&host=usla.overtheriverandthroughthewoods.net&path=%2F#TG-LosAngeles-CDN3-Vless",
+"vless://551D41D3-B336-411C-7EEB-C96357C6CB11@usla.foldandflyhigh.com:443?encryption=none&security=tls&sni=usla.foldandflyhigh.com&alpn=http%2F1.1&type=ws&host=usla.foldandflyhigh.com&path=%2F#TG-LosAngeles-CDN5-Vless"
+];
+
+async function copyServer(i) {
+  const status = document.getElementById("status");
+  const area = document.getElementById("fallback");
+  area.style.display = "none";
+
+  try {
+    if (!navigator.clipboard || !window.isSecureContext)
+      throw new Error("Clipboard unavailable");
+    await navigator.clipboard.writeText(servers[i]);
+    status.textContent = "لینک کپی شد؛ در V2Box پیست کن.";
+  } catch (e) {
+    area.value = servers[i];
+    area.style.display = "block";
+    area.focus();
+    area.select();
+    status.textContent =
+      "کپی خودکار پشتیبانی نشد. متن انتخاب‌شده را کپی کن.";
+  }
+}
+</script>
+</body>
+</html>
